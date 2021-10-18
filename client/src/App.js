@@ -1,5 +1,7 @@
 import React from 'react';
-
+import Navbar from './components/Navbar';
+import Body from './components/Body';
+import './App.css'
 
 // TODO
 /* 1: Make the UI same as that in the figma design
@@ -12,8 +14,9 @@ import React from 'react';
 
 function App() {
   return (
-    <div className="App">
-      <h3>Hello world</h3>
+    <div className="App" id="App">
+      <Navbar />
+      <Body />
     </div>
   );
 }
