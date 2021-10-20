@@ -1,36 +1,9 @@
 import React, { Component } from "react";
-import "./Plugboard.css";
+import { alphabets } from "./arrays";
+import "./styles/Plugboard.css";
 
 export default class Plugboard extends Component {
   insertPlugs(num) {
-    const alphabets = [
-      "A",
-      "B",
-      "C",
-      "D",
-      "E",
-      "F",
-      "G",
-      "H",
-      "I",
-      "J",
-      "K",
-      "L",
-      "M",
-      "N",
-      "O",
-      "P",
-      "Q",
-      "R",
-      "S",
-      "T",
-      "U",
-      "V",
-      "W",
-      "X",
-      "Y",
-      "Z",
-    ];
     return (
       <div className="individual-plugs">
         <span>Plug #{num}</span>
