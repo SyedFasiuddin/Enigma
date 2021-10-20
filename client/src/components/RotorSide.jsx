@@ -2,49 +2,10 @@ import React, { Component } from "react";
 import "./RotarSide.css";
 
 export default class RotarSide extends Component {
-  constructor() {
-    super();
-    this.state = {
-      submit: false,
-      inputMsg: "",
-      enigmaMsg: "",
-      rotorSettings: {
-        rotor1: 1,
-        rotorSet1: 4,
-        rotor2: 1,
-        rotorSet2: 4,
-        rotor3: 1,
-        rotorSet3: 4,
-      },
-    };
+  constructor(props) {
+    super(props);
+    this.state = this.props.state;
   }
-
-  rotorHandler = (e) => {
-    let value = e.target.value;
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj.rotorSettings[e.target.id] = parseInt(value);
-      return { obj };
-    });
-  };
-
-  inputMsgHandler = (e) => {
-    let value = e.target.value;
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj.inputMsg = String(value);
-      return { obj };
-    });
-  };
-
-  submitHandler = (e) => {
-    // console.log(this.state, e);
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj.submit = true;
-      return { obj };
-    });
-  };
 
   insertRotorSelection(num) {
     const rotors = ["I", "II", "III", "IV", "V"];
@@ -79,7 +40,11 @@ export default class RotarSide extends Component {
     return (
       <div className="individualRotor">
         <span>Rotor #{num}</span>
-        <select name="rotor" id={"rotor" + num} onChange={this.rotorHandler}>
+        <select
+          name="rotor"
+          id={"rotor" + num}
+          onChange={this.props.rotorHandler}
+        >
           {[...rotors].map((e, i) => (
             <option value={i + 1}>{e}</option>
           ))}
@@ -87,7 +52,7 @@ export default class RotarSide extends Component {
         <select
           name="rotorStartingPosition"
           id={"rotorSet" + num}
-          onChange={this.rotorHandler}
+          onChange={this.props.rotorHandler}
         >
           {[...rotorsSettings].map((e, i) => (
             <option value={i + 1}>{e}</option>
@@ -110,7 +75,7 @@ export default class RotarSide extends Component {
             {this.insertRotorSelection(3)}
           </div>
           <div>
-            <button type="submit" onClick={this.submitHandler}>
+            <button type="submit" onClick={this.props.submitHandler}>
               Encrypt
             </button>
           </div>
@@ -123,7 +88,7 @@ export default class RotarSide extends Component {
             cols="30"
             rows="10"
             placeholder="Input Message"
-            onChange={this.inputMsgHandler}
+            onChange={this.props.inputMsgHandler}
           ></textarea>
         </div>
         <div>

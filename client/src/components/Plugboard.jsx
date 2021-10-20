@@ -2,40 +2,10 @@ import React, { Component } from "react";
 import "./Plugboard.css";
 
 export default class Plugboard extends Component {
-  constructor() {
-    super();
-    this.state = {
-      plugStart1: 1,
-      plugStart2: 1,
-      plugStart3: 1,
-      plugStart4: 1,
-      plugStart5: 1,
-      plugStart6: 1,
-      plugStart7: 1,
-      plugStart8: 1,
-      plugStart9: 1,
-      plugStart10: 1,
-      plugEnd1: 1,
-      plugEnd2: 1,
-      plugEnd3: 1,
-      plugEnd4: 1,
-      plugEnd5: 1,
-      plugEnd6: 1,
-      plugEnd7: 1,
-      plugEnd8: 1,
-      plugEnd9: 1,
-      plugEnd10: 1,
-    };
+  constructor(props) {
+    super(props);
+    this.state = this.props.state;
   }
-
-  selectChangeHandler = (e) => {
-    let value = e.target.value;
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj[e.target.id] = parseInt(value);
-      return { obj };
-    });
-  };
 
   insertSelect(num) {
     const alphabets = [
@@ -73,7 +43,7 @@ export default class Plugboard extends Component {
           <select
             name={"plugStart" + num}
             id={"plugStart" + num}
-            onChange={this.selectChangeHandler}
+            onChange={this.props.changeHandler}
           >
             {[...alphabets].map((e, i) => (
               <option value={i + 1}>{e}</option>
@@ -83,7 +53,7 @@ export default class Plugboard extends Component {
           <select
             name={"plugEnd" + num}
             id={"plugEnd" + num}
-            onChange={this.selectChangeHandler}
+            onChange={this.props.changeHandler}
           >
             {[...alphabets].map((e, i) => (
               <option value={i + 1}>{e}</option>
