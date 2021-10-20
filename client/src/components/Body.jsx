@@ -45,54 +45,51 @@ export default class Body extends Component {
     };
   }
 
-  selectChangeHandler = (e) => {
-    let value = e.target.value;
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj[e.target.id] = parseInt(value);
-      return { obj };
-    });
+  plugInputHandler = (e) => {
+    this.setState(
+      (prevState) =>
+        ({ ...prevState }.plugboardSideState[e.target.id] = parseInt(
+          e.target.value
+        ))
+    );
   };
 
-  rotorHandler = (e) => {
-    let value = e.target.value;
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj.rotorSideState.rotorSettings[e.target.id] = parseInt(value);
-      return { obj };
-    });
+  rotorInputHandler = (e) => {
+    this.setState(
+      (prevState) =>
+        ({ ...prevState }.rotorSideState.rotorSettings[e.target.id] = parseInt(
+          e.target.value
+        ))
+    );
   };
 
   inputMsgHandler = (e) => {
-    let value = e.target.value;
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj.inputMsg = String(value);
-      return { obj };
-    });
+    this.setState(
+      (prevState) => {
+        let obj = { ...prevState };
+        obj.rotorSideState.inputMsg = String(e.target.value);
+        return obj;
+      }
+      // ({ ...prevState }.rotorSideState.inputMsg = String(e.target.value))
+    );
   };
 
   submitHandler = (e) => {
-    this.setState((prevState) => {
-      let obj = prevState;
-      obj.submit = true;
-      return { obj };
-    });
+    this.setState(
+      (prevState) => ({ ...prevState }.rotorSideState.submit = true)
+    );
+    console.log(this.state);
   };
 
   render() {
     return (
       <div id="container">
         <RotarSide
-          state={this.state.rotorSideState}
           inputMsgHandler={this.inputMsgHandler}
           submitHandler={this.submitHandler}
-          rotorHandler={this.rotorHandler}
+          rotorInputHandler={this.rotorInputHandler}
         />
-        <Plugboard
-          state={this.state.plugboardSideState}
-          changeHandler={this.selectChangeHandler}
-        />
+        <Plugboard plugInputHandler={this.plugInputHandler} />
       </div>
     );
   }

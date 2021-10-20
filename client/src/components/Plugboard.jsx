@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import "./Plugboard.css";
 
 export default class Plugboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = this.props.state;
-  }
-
-  insertSelect(num) {
+  insertPlugs(num) {
     const alphabets = [
       "A",
       "B",
@@ -43,7 +38,7 @@ export default class Plugboard extends Component {
           <select
             name={"plugStart" + num}
             id={"plugStart" + num}
-            onChange={this.props.changeHandler}
+            onChange={this.props.plugInputHandler}
           >
             {[...alphabets].map((e, i) => (
               <option value={i + 1}>{e}</option>
@@ -53,7 +48,7 @@ export default class Plugboard extends Component {
           <select
             name={"plugEnd" + num}
             id={"plugEnd" + num}
-            onChange={this.props.changeHandler}
+            onChange={this.props.plugInputHandler}
           >
             {[...alphabets].map((e, i) => (
               <option value={i + 1}>{e}</option>
@@ -71,18 +66,18 @@ export default class Plugboard extends Component {
           <h3>Plug Board</h3>
         </div>
         <div className="plugboard-columns">
-          {this.insertSelect(1)}
-          {this.insertSelect(2)}
-          {this.insertSelect(3)}
-          {this.insertSelect(4)}
-          {this.insertSelect(5)}
+          {this.insertPlugs(1)}
+          {this.insertPlugs(2)}
+          {this.insertPlugs(3)}
+          {this.insertPlugs(4)}
+          {this.insertPlugs(5)}
         </div>
         <div className="plugboard-columns">
-          {this.insertSelect(6)}
-          {this.insertSelect(7)}
-          {this.insertSelect(8)}
-          {this.insertSelect(9)}
-          {this.insertSelect(10)}
+          {this.insertPlugs(6)}
+          {this.insertPlugs(7)}
+          {this.insertPlugs(8)}
+          {this.insertPlugs(9)}
+          {this.insertPlugs(10)}
         </div>
       </div>
     );

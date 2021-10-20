@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import "./RotarSide.css";
 
 export default class RotarSide extends Component {
-  constructor(props) {
-    super(props);
-    this.state = this.props.state;
-  }
-
-  insertRotorSelection(num) {
+  insertRotors(num) {
     const rotors = ["I", "II", "III", "IV", "V"];
     const rotorsSettings = [
       "1",
@@ -43,7 +38,7 @@ export default class RotarSide extends Component {
         <select
           name="rotor"
           id={"rotor" + num}
-          onChange={this.props.rotorHandler}
+          onChange={this.props.rotorInputHandler}
         >
           {[...rotors].map((e, i) => (
             <option value={i + 1}>{e}</option>
@@ -52,7 +47,7 @@ export default class RotarSide extends Component {
         <select
           name="rotorStartingPosition"
           id={"rotorSet" + num}
-          onChange={this.props.rotorHandler}
+          onChange={this.props.rotorInputHandler}
         >
           {[...rotorsSettings].map((e, i) => (
             <option value={i + 1}>{e}</option>
@@ -70,9 +65,9 @@ export default class RotarSide extends Component {
             <h3>Rotor Configuration</h3>
           </div>
           <div>
-            {this.insertRotorSelection(1)}
-            {this.insertRotorSelection(2)}
-            {this.insertRotorSelection(3)}
+            {this.insertRotors(1)}
+            {this.insertRotors(2)}
+            {this.insertRotors(3)}
           </div>
           <div>
             <button type="submit" onClick={this.props.submitHandler}>
