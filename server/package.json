@@ -4,11 +4,17 @@
   "description": "A full stack site to simulate the working of Enigma",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run": "nodemon main"
   },
   "keywords": [
     "Enigma"
   ],
   "author": "Syed Fasiuddin",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
 }

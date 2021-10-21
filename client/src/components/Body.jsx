@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Plugboard from "./Plugboard";
 import RotarSide from "./RotorSide";
-import "./styles/Body";
+import "./styles/Body.css";
 
 export default class Body extends Component {
   constructor() {
