@@ -1,69 +1,65 @@
-const Entry = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-    I = "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
-    II = "AJDKSIRUXBLHWTMCQGZNPYFVOE",
-    III = "BDFHJLCPRTXVZNYEIWGAKMUSQO",
-    IV = "ESOVPZJAYQUIRHXLNFTGKDCMWB",
-    V = "VZBRGITYUPSDNHLXAWMJQOFECK",
-    reflector = ["AY", "BR", "CU", 'DH', 'EQ', 'FS', 'GL', 'IP', 'JX', 'KN', 'MO', 'TZ', 'VW']
+const
+    In = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", // rotors input 
+    R1 = "EKMFLGDQVZNTOWYHXUSPAIBRCJ",
+    R2 = "AJDKSIRUXBLHWTMCQGZNPYFVOE",
+    R3 = "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+    R4 = "ESOVPZJAYQUIRHXLNFTGKDCMWB",
+    R5 = "VZBRGITYUPSDNHLXAWMJQOFECK",
+    refI = "ABCDEFGIJKMTV", // reflector input
+    refO = "YRUHQSLPXNOZW"; // reflector output
 
+const usedRotorOne = rotor1,
+    usedRotorTwo = rotor2,
+    usedRotorThree = rotor3;
 
-function rotor1(str, rotorStartPos) {
-    let rotorOneOutput = ''
-    for (let i = 0; i < str.length; i++) {
-        if (rotorStartPos > 26) rotorStartPos = 1
-        let charIdx = Entry.indexOf(str[i]) + rotorStartPos - 1
-        rotorOneOutput += I.charAt(charIdx)
-        rotorStartPos++;
-    }
-    return rotorOneOutput
+// 1 --> towards reflector
+// 0 --> away from reflector
+
+function rotor1(char, direction) {
+    if (direction === 1) return R1.charAt(In.indexOf(char))
+    if (direction === 0) return In.charAt(R1.indexOf(char))
 }
 
-
-function rotor2(str, rotorStartPos) {
-    let rotorTwoOutput = ''
-    for (let i = 0; i < str.length; i++) {
-        if (rotorStartPos > 26) rotorStartPos = 1
-        let charIdx = Entry.indexOf(str[i]) + rotorStartPos - 1
-        rotorTwoOutput += II.charAt(charIdx)
-        rotorStartPos++
-    }
-    return rotorTwoOutput
+function rotor2(char, direction) {
+    if (direction === 1) return R2.charAt(In.indexOf(char))
+    if (direction === 0) return In.charAt(R2.indexOf(char))
 }
 
-function rotor3(str, rotorStartPos) {
-    let rotorThreeOutput = ''
-    for (let i = 0; i < str.length; i++) {
-        if (rotorStartPos > 26) rotorStartPos = 1
-        let charIdx = Entry.indexOf(str[i]) + rotorStartPos - 1
-        rotorThreeOutput += III.charAt(charIdx)
-        rotorStartPos++
-    }
-    return rotorThreeOutput
+function rotor3(char, direction) {
+    if (direction === 1) return R3.charAt(In.indexOf(char))
+    if (direction === 0) return In.charAt(R3.indexOf(char))
 }
 
-function rotor4(str, rotorStartPos) {
-    let rotorFourOutput = ''
-    for (let i = 0; i < str.length; i++) {
-        if (rotorStartPos > 26) rotorStartPos = 1
-        let charIdx = Entry.indexOf(str[i]) + rotorStartPos - 1
-        rotorFourOutput += IV.charAt(charIdx)
-        rotorStartPos++
-    }
-    return rotorFourOutput
+function rotor4(char, direction) {
+    if (direction === 1) return R4.charAt(In.indexOf(char))
+    if (direction === 0) return In.charAt(R4.indexOf(char))
 }
 
-function rotor5(str, rotorStartPos) {
-    let rotorFiveOutput = ''
-    for (let i = 0; i < str.length; i++) {
-        if (rotorStartPos > 26) rotorStartPos = 1
-        let charIdx = Entry.indexOf(str[i]) + rotorStartPos - 1
-        rotorFiveOutput += V.charAt(charIdx)
-        rotorStartPos++
-    }
-    return rotorFiveOutput
+function rotor5(char, direction) {
+    if (direction === 1) return R5.charAt(In.indexOf(char))
+    if (direction === 0) return In.charAt(R5.indexOf(char))
 }
-console.log(rotor1("AAAAA", 25))
-console.log(rotor2("AAAAA", 25))
-console.log(rotor3("AAAAA", 25))
-console.log(rotor4("AAAAA", 25))
-console.log(rotor5("AAAAA", 25))
+
+function reflector(char) {
+    let inIdx = refI.indexOf(char)
+    if (inIdx !== -1) return refO.charAt(inIdx)
+    let outIdx = refO.indexOf(char)
+    if (outIdx !== -1) return refI.charAt(outIdx)
+}
+
+function encrypt(str) {
+    let returnStr = ''
+    for (let i = 0; i < str.length; i++) {
+        let c1 = usedRotorOne(str[i], 1)
+        let c2 = usedRotorTwo(c1, 1)
+        let c3 = usedRotorThree(c2, 1)
+        let ref = reflector(c3)
+        c3 = usedRotorThree(ref, 0)
+        c2 = usedRotorTwo(c3, 0)
+        c1 = usedRotorOne(c2, 0)
+        returnStr += c1
+    }
+    return returnStr
+}
+
+console.log(encrypt("ABCDEFGHIJKLMNOPQRSTUVWXYZs"))
