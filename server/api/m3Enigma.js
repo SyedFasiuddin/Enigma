@@ -16,6 +16,8 @@ class M3EnigmaRotorsAndEncryption {
         let usedRotorThreeIdx;
         let reflectorIn;
         let reflectorOut;
+        let plugBoardStartChars;
+        let plugBoardEndChars;
     }
 
     setAlphabets = () => {
@@ -56,6 +58,14 @@ class M3EnigmaRotorsAndEncryption {
 
     getUsedRotorThree = () => {
         return usedRotorThree;
+    }
+
+    setPlugBoardStartChars = (plugBoardStartChars) => {
+        this.plugBoardStartChars = plugBoardStartChars;
+    }
+
+    setPlugBoardEndChars = (plugBoardEndChars) => {
+        this.plugBoardEndChars = plugBoardEndChars;
     }
 
     setReflectorIn = () => {
@@ -104,6 +114,14 @@ class M3EnigmaRotorsAndEncryption {
             }
         }
         return c;
+    }
+
+    plugBoardSubstitution(char) {
+        let idx1 = this.plugBoardStartChars.indexOf(char);
+        let idx2 = this.plugBoardEndChars.indexOf(char);
+        if (idx1 == -1 && idx2 == -1) return char;
+        if (idx1 != -1) return this.plugBoardEndChars.charAt(idx1);
+        if (idx2 != -1) return this.plugBoardStartChars.charAt(idx2);
     }
 
     reflector(char) {
@@ -202,22 +220,33 @@ class M3EnigmaRotorsAndEncryption {
     }
 
     encrypt = () => {
+        let msg = this.checkInputMsg(this.inputMsg)
         let enigmaOutputMsg = ''
-        for (let i = 0; i < this.inputMsg.length; i++) {
-            let c = this.substitution(this.inputMsg[i], this.alphabets, this.usedRotorOne)
-            c = this.substitution(c, this.alphabets, this.usedRotorTwo)
-            c = this.substitution(c, this.alphabets, this.usedRotorThree)
-            c = this.reflector(c)
-            c = this.substitution(c, this.usedRotorThree, this.alphabets)
-            c = this.substitution(c, this.usedRotorTwo, this.alphabets)
-            c = this.substitution(c, this.usedRotorOne, this.alphabets)
-            enigmaOutputMsg += c
-            this.checkForRotationAndRotate()
+        if (msg === null) {
+            return "Invalid Input"
+        } else {
+            for (let i = 0; i < msg.length; i++) {
+                if (msg[i] === '0') {
+                    enigmaOutputMsg += ' '
+                } else {
+                    let c = this.plugBoardSubstitution(msg[i])
+                    c = this.substitution(c, this.alphabets, this.usedRotorOne)
+                    c = this.substitution(c, this.alphabets, this.usedRotorTwo)
+                    c = this.substitution(c, this.alphabets, this.usedRotorThree)
+                    c = this.reflector(c)
+                    c = this.substitution(c, this.usedRotorThree, this.alphabets)
+                    c = this.substitution(c, this.usedRotorTwo, this.alphabets)
+                    c = this.substitution(c, this.usedRotorOne, this.alphabets)
+                    c = this.plugBoardSubstitution(c)
+                    enigmaOutputMsg += c
+                    this.checkForRotationAndRotate()
+                }
+            }
         }
         return enigmaOutputMsg
     }
 
-    initialize(msg, r1, r2, r3, ri2, ri3) {
+    initialize(msg, r1, r2, r3, ri2, ri3, plugStart, plugEnd) {
         this.setAlphabets()
         this.setReflectorIn()
         this.setReflectorOut()
@@ -227,20 +256,15 @@ class M3EnigmaRotorsAndEncryption {
         this.setUsedRotorThree(r3);
         this.setUsedRotorTwoIndex(ri2);
         this.setUsedRotorThreeIndex(ri3);
+        this.setPlugBoardStartChars(plugStart);
+        this.setPlugBoardEndChars(plugEnd);
     }
 
     checkInputMsg(str) {
         if (str.match(/[0-9]/) === null) {
             str = str.toUpperCase()
+            str = str.replace(/ /g, "0")
             return str;
         } else return str = null;
     }
 }
-
-// test cases
-let test = new M3EnigmaRotorsAndEncryption()
-let ab = test.defineRotorsUsed(1)
-let cd = test.defineRotorsUsed(2)
-let ef = test.defineRotorsUsed(3)
-test.initialize("NEVRDWDXJXEEKNWWCRYCJYQQQEJSOW", ab, cd, ef, 1, 1)
-console.log(test.encrypt())
