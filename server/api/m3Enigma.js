@@ -21,23 +21,23 @@ class M3EnigmaRotorsAndEncryption {
     }
 
     setAlphabets = () => {
-        this.alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        this.alphabets = this.defineRotorsUsed(0);
     }
 
     setInputMsg = (inputMsg) => {
         this.inputMsg = inputMsg;
     }
 
-    setUsedRotorOne = (usedRotorOne) => {
-        this.usedRotorOne = usedRotorOne
+    setUsedRotorOne = (str) => {
+        this.usedRotorOne = str;
     }
 
     getUsedRotorOne = () => {
         return usedRotorOne;
     }
 
-    setUsedRotorTwo = (usedRotorTwo) => {
-        this.usedRotorTwo = usedRotorTwo;
+    setUsedRotorTwo = (str) => {
+        this.usedRotorTwo = str;
     }
 
     setUsedRotorTwoIndex = (usedRotorTwoIdx) => {
@@ -48,8 +48,8 @@ class M3EnigmaRotorsAndEncryption {
         return usedRotorTwo;
     }
 
-    setUsedRotorThree = (usedRotorThree) => {
-        this.usedRotorThree = usedRotorThree;
+    setUsedRotorThree = (str) => {
+        this.usedRotorThree = str;
     }
 
     setUsedRotorThreeIndex = (usedRotorThreeIdx) => {
@@ -150,7 +150,7 @@ class M3EnigmaRotorsAndEncryption {
         return rotor;
     }
 
-    checkForRotationAndRotate() {
+    checkForRotationAndRotate = () => {
         this.setUsedRotorOne(this.rotateRotors(this.usedRotorOne, 1))
         let usedRotorOneArr = this.usedRotorOne.split('')
         let usedRotorTwoArr;
@@ -246,14 +246,14 @@ class M3EnigmaRotorsAndEncryption {
         return enigmaOutputMsg
     }
 
-    initialize(msg, r1, r2, r3, ri2, ri3, plugStart, plugEnd) {
+    initialize = (msg, r1, r2, r3, ri2, ri3, plugStart, plugEnd) => {
         this.setAlphabets()
         this.setReflectorIn()
         this.setReflectorOut()
         this.setInputMsg(msg);
-        this.setUsedRotorOne(r1);
-        this.setUsedRotorTwo(r2);
-        this.setUsedRotorThree(r3);
+        this.setUsedRotorOne(this.defineRotorsUsed(r1));
+        this.setUsedRotorTwo(this.defineRotorsUsed(r2));
+        this.setUsedRotorThree(this.defineRotorsUsed(r3));
         this.setUsedRotorTwoIndex(ri2);
         this.setUsedRotorThreeIndex(ri3);
         this.setPlugBoardStartChars(plugStart);
@@ -264,7 +264,12 @@ class M3EnigmaRotorsAndEncryption {
         if (str.match(/[0-9]/) === null) {
             str = str.toUpperCase()
             str = str.replace(/ /g, "0")
+            str = str.replace(/\n/g, "0")
+            str = str.replace(/\t/g, "0")
             return str;
         } else return str = null;
     }
 }
+
+
+module.exports = M3EnigmaRotorsAndEncryption;

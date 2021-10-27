@@ -14,7 +14,17 @@ export default class Plugboard extends Component {
             onChange={this.props.plugInputHandler}
           >
             {[...alphabets].map((e, i) => (
-              <option value={i + 1}>{e}</option>
+              <option
+                value={i + 1}
+                key={"plugStarting" + i}
+                selected={
+                  this.props.plugboardSideState["plugStart" + num] === e
+                    ? "selected"
+                    : ""
+                }
+              >
+                {e}
+              </option>
             ))}
           </select>
           <p>To</p>
@@ -24,7 +34,17 @@ export default class Plugboard extends Component {
             onChange={this.props.plugInputHandler}
           >
             {[...alphabets].map((e, i) => (
-              <option value={i + 1}>{e}</option>
+              <option
+                value={i + 1}
+                key={"plugEnding" + i}
+                selected={
+                  this.props.plugboardSideState["plugEnd" + num] === e
+                    ? "selected"
+                    : ""
+                }
+              >
+                {e}
+              </option>
             ))}
           </select>
         </div>

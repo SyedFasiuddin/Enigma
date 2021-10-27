@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Plugboard from "./Plugboard";
 import RotarSide from "./RotorSide";
+import axios from "axios";
+
 import "./styles/Body.css";
 
 export default class Body extends Component {
@@ -8,48 +10,48 @@ export default class Body extends Component {
     super();
     this.state = {
       rotorSideState: {
-        submit: false,
         inputMsg: "",
-        enigmaMsg: "",
+        enigmaMsg: "Enigma Code",
         rotorSettings: {
           rotor1: 1,
-          rotorSet1: 4,
-          rotor2: 1,
-          rotorSet2: 4,
-          rotor3: 1,
-          rotorSet3: 4,
+          rotorSet1: 1,
+          rotor2: 2,
+          rotorSet2: 2,
+          rotor3: 3,
+          rotorSet3: 3,
         },
       },
       plugboardSideState: {
-        plugStart1: 1,
-        plugStart2: 1,
-        plugStart3: 1,
-        plugStart4: 1,
-        plugStart5: 1,
-        plugStart6: 1,
-        plugStart7: 1,
-        plugStart8: 1,
-        plugStart9: 1,
-        plugStart10: 1,
-        plugEnd1: 1,
-        plugEnd2: 1,
-        plugEnd3: 1,
-        plugEnd4: 1,
-        plugEnd5: 1,
-        plugEnd6: 1,
-        plugEnd7: 1,
-        plugEnd8: 1,
-        plugEnd9: 1,
-        plugEnd10: 1,
+        plugStart1: "A",
+        plugStart2: "B",
+        plugStart3: "C",
+        plugStart4: "D",
+        plugStart5: "E",
+        plugStart6: "F",
+        plugStart7: "G",
+        plugStart8: "H",
+        plugStart9: "I",
+        plugStart10: "J",
+        plugEnd1: "K",
+        plugEnd2: "L",
+        plugEnd3: "M",
+        plugEnd4: "N",
+        plugEnd5: "O",
+        plugEnd6: "P",
+        plugEnd7: "Q",
+        plugEnd8: "R",
+        plugEnd9: "S",
+        plugEnd10: "T",
       },
     };
   }
 
   plugInputHandler = (e) => {
+    let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     this.setState(
       (prevState) =>
-        ({ ...prevState }.plugboardSideState[e.target.id] = parseInt(
-          e.target.value
+        ({ ...prevState }.plugboardSideState[e.target.id] = letters.charAt(
+          parseInt(e.target.value) - 1
         ))
     );
   };
@@ -64,21 +66,25 @@ export default class Body extends Component {
   };
 
   inputMsgHandler = (e) => {
-    this.setState(
-      (prevState) => {
-        let obj = { ...prevState };
-        obj.rotorSideState.inputMsg = String(e.target.value);
-        return obj;
-      }
-      // ({ ...prevState }.rotorSideState.inputMsg = String(e.target.value))
-    );
+    this.setState((prevState) => {
+      let obj = { ...prevState };
+      obj.rotorSideState.inputMsg = String(e.target.value);
+      return obj;
+    });
   };
 
   submitHandler = (e) => {
-    this.setState(
-      (prevState) => ({ ...prevState }.rotorSideState.submit = true)
-    );
-    console.log(this.state);
+    e.preventDefault();
+    axios
+      .post("http://localhost:5000/api", this.state)
+      .then((res) =>
+        this.setState((prevState) => {
+          let obj = { ...prevState };
+          obj.rotorSideState.enigmaMsg = res.data.enigmaMsg;
+          return obj;
+        })
+      )
+      .catch((err) => console.log(err));
   };
 
   render() {
@@ -88,8 +94,13 @@ export default class Body extends Component {
           inputMsgHandler={this.inputMsgHandler}
           submitHandler={this.submitHandler}
           rotorInputHandler={this.rotorInputHandler}
+          enigmaMsg={this.state.rotorSideState.enigmaMsg}
+          rotorSettings={this.state.rotorSideState.rotorSettings}
         />
-        <Plugboard plugInputHandler={this.plugInputHandler} />
+        <Plugboard
+          plugInputHandler={this.plugInputHandler}
+          plugboardSideState={this.state.plugboardSideState}
+        />
       </div>
     );
   }

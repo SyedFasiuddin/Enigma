@@ -11,18 +11,24 @@ export default class RotarSide extends Component {
           name="rotor"
           id={"rotor" + num}
           onChange={this.props.rotorInputHandler}
+          value={this.props.rotorSettings["rotor" + num]}
         >
           {[...rotors].map((e, i) => (
-            <option value={i + 1}>{e}</option>
+            <option value={i + 1} key={"ro" + i}>
+              {e}
+            </option>
           ))}
         </select>
         <select
           name="rotorStartingPosition"
           id={"rotorSet" + num}
           onChange={this.props.rotorInputHandler}
+          value={this.props.rotorSettings["rotorSet" + num]}
         >
           {[...rotorStartingPosition].map((e, i) => (
-            <option value={i + 1}>{e}</option>
+            <option value={i + 1} key={"roSet" + i}>
+              {e}
+            </option>
           ))}
         </select>
       </div>
@@ -48,7 +54,6 @@ export default class RotarSide extends Component {
           </div>
         </div>
         <div>
-          {/* <p>Input Message</p> */}
           <textarea
             name="message"
             className="message"
@@ -59,13 +64,12 @@ export default class RotarSide extends Component {
           ></textarea>
         </div>
         <div>
-          {/* <p>Enigma output</p> */}
           <textarea
             name="message"
             className="message"
             cols="30"
             rows="10"
-            placeholder="Engima output"
+            placeholder={this.props.enigmaMsg}
             readOnly
           ></textarea>
         </div>
