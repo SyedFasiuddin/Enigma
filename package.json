@@ -4,6 +4,7 @@
   "description": "A full stack site to simulate the working of M3 Enigma",
   "main": "main.js",
   "scripts": {
+    "start": "node main.js",
     "run": "nodemon main",
     "build": "cd client && npm install && npm run build"
   },
