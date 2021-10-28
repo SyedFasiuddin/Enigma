@@ -1,29 +1,29 @@
-/* TODO
- * 1: Create the server and listen
- * 2: When post method is called take the passed json object
- * 3: consider all the rotat and plug board settings and pass the message into functions
- * 4: Take the output of the functions and send it back to the client and complete the promise
- * 5: when the app is deployed we also have to serve the html css and js
-*/
-
+const path = require('path');
 const express = require('express')
-const m3enigmaClass = require('./api/m3Enigma')
+const dotenv = require('dotenv')
+dotenv.config()
 const app = express()
+app.use(express.json());
 
+const m3enigmaClass = require('./api/m3Enigma')
 const m3enigma = new m3enigmaClass()
 
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 
-app.use(express.json());
+
+app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')));
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
+});
 
 app.post('/api', (req, res) => {
 
     let plugStart = '';
     let plugEnd = '';
+
     for (let i = 1; i <= 10; i++) {
         plugStart += req.body.plugboardSideState[`plugStart${i}`]
     }
-
     for (let i = 1; i <= 10; i++) {
         plugEnd += req.body.plugboardSideState[`plugEnd${i}`]
     }
@@ -44,4 +44,4 @@ app.post('/api', (req, res) => {
     res.end()
 })
 
-app.listen(PORT, () => console.log("listening on port 5000"))
+app.listen(PORT, () => PORT)

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Plugboard from "./Plugboard";
 import RotarSide from "./RotorSide";
 import axios from "axios";
-
 import "./styles/Body.css";
 
 export default class Body extends Component {
