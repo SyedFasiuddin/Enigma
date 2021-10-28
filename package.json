@@ -1,11 +1,11 @@
 {
   "name": "enigma",
   "version": "1.0.0",
-  "description": "A full stack site to simulate the working of Enigma",
+  "description": "A full stack site to simulate the working of M3 Enigma",
   "main": "main.js",
   "scripts": {
     "run": "nodemon main",
-    "build": "cd .. && cd client && npm install && npm run build"
+    "build": "cd client && npm install && npm run build"
   },
   "keywords": [
     "Enigma"
