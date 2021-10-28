@@ -75,7 +75,7 @@ export default class Body extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     axios
-      .post("https://enigma-simulation.herokuapp.com//api", this.state)
+      .post("https://enigma-simulation.herokuapp.com/api", this.state)
       .then((res) =>
         this.setState((prevState) => {
           let obj = { ...prevState };
